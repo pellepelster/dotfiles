@@ -89,7 +89,7 @@ else
   os_dir=${OS}/${DISTRIB_ID}
 fi
 
-run_script_if_exists "scripts/${os_dir}/re_run.sh" "os pre-run"
+run_script_if_exists "scripts/${os_dir}/pre_run.sh" "os pre-run"
 run_script_if_exists "scripts/${os_dir}/install_packages.sh" "package installation" "${DIR}/packages/${os_dir}"
 
 do_bootstrap;
