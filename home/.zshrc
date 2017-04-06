@@ -1,4 +1,4 @@
-export ZSH=/Users/cpelster/.oh-my-zsh
+export ZSH=/home/pelle/.oh-my-zsh
 
 export GOPATH="${HOME}/go"
 export RBENV_PATHPATH="$HOME/.rbenv/bin"

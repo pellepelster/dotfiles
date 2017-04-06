@@ -2,7 +2,10 @@ git
 gnupg2
 awesome
 awesome-extra
+xterm
 tmux
 vim
 golang
+rbenv
+mc
 zsh
