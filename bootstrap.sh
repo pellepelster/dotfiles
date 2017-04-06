@@ -169,6 +169,7 @@ fi
 
 run_script_if_exists "scripts/${os_dir}/pre_run.sh" "os pre-run"
 run_script_if_exists "scripts/${os_dir}/install_packages.sh" "package installation" "${DIR}/packages/${os_dir}"
+run_script_if_exists "scripts/${os_dir}/run.sh" "os pre-run"
 
 do_bootstrap;
 unset do_bootstrap;

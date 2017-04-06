@@ -1,4 +1,5 @@
 set -eu
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 PACKAGE_LIST="$1/packages.list"
 
