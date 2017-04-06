@@ -13,3 +13,7 @@ if ! which termite ; then
   /tmp/termite/termite-install.sh
 fi
 
+if [ ! -f ~/.local/share/fonts/ter-powerline-x12b.pcf.gz ] ; then
+  git clone https://github.com/powerline/fonts.git /tmp/powerline-fonts
+  /tmp/powerline-fonts/install.sh
+fi
