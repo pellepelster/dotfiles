@@ -36,6 +36,6 @@
 [branch]
   autosetuprebase = always
 [gpg]
-  program = /bin/gpg
+  program = /usr/bin/gpg
 
 
