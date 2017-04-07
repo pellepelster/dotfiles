@@ -10,3 +10,8 @@ if [ -z ${ZSH+x} ]; then
   chsh -s /bin/zsh
 fi
 
+RUBY_VERSION="2.2.3"
+if [ ! -d ~/.rbenv/versions/${RUBY_VERSION}/ ] ; then
+  sudo apt-get install -y libssl-dev
+  rbenv install ${RUBY_VERSION}
+fi

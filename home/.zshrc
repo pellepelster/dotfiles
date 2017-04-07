@@ -6,7 +6,7 @@ PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
 export PATH="${RBENV_PATHPATH}:${HOME_DIR}/bin:$GOPATH/bin:$PATH:$EXTRA_PATH"
 
 # do not display own name in prompt
-DEFAULT_USER="cpelster"
+DEFAULT_USER="pelle"
 
 # avoid different backgirund coloirs for vim syntax highlighting
 export TERM=xterm-256color
@@ -59,13 +59,6 @@ eval "$(rbenv init -)"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Add the following to your shell init to set up gpg-agent automatically for every shell
-if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
-    source ~/.gnupg/.gpg-agent-info
-    export GPG_AGENT_INFO
-else
-    eval $(gpg-agent --daemon --options ~/.gnupg/gpg-agent.conf --write-env-file ~/.gnupg/.gpg-agent-info)
-fi
 
 export GPGKEY=60665D73
 
