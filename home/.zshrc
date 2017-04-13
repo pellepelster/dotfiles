@@ -59,6 +59,10 @@ eval "$(rbenv init -)"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+GPG_TTY=$(tty)
+export GPG_TTY
+
+(gpg-connect-agent /bye > /dev/null)
 
 export GPGKEY=60665D73
 
