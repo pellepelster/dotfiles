@@ -3,7 +3,7 @@ export ZSH=/home/pelle/.oh-my-zsh
 export GOPATH="${HOME}/go"
 export RBENV_PATHPATH="$HOME/.rbenv/bin"
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
-export PATH="${RBENV_PATHPATH}:${HOME_DIR}/bin:$GOPATH/bin:$PATH:$EXTRA_PATH"
+export PATH="${RBENV_PATHPATH}:${HOME}/bin:$GOPATH/bin:$PATH:$EXTRA_PATH"
 
 # do not display own name in prompt
 DEFAULT_USER="pelle"
@@ -66,3 +66,5 @@ export GPG_TTY
 
 export GPGKEY=60665D73
 
+export JAVA_HOME=${$(readlink -f $(which java))%/bin/java}
+export JAVA_HOME=${JAVA_HOME%/jre}
