@@ -11,3 +11,5 @@ ruby-build
 mc
 irssi
 zsh
+docker.io
+docker-compose
