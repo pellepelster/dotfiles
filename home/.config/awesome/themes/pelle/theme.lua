@@ -1,9 +1,9 @@
 
 --[[
-                                      
-     Powerarrow Dark Awesome WM theme 
-     github.com/copycat-killer        
-                                      
+
+     Powerarrow Dark Awesome WM theme
+     github.com/copycat-killer
+
 --]]
 
 local gears = require("gears")
@@ -201,10 +201,11 @@ theme.volume = lain.widget.alsa({
         else
             volicon:set_image(theme.widget_vol)
         end
-
         widget:set_markup(markup.font(theme.font, " " .. volume_now.level .. "% "))
     end
 })
+
+theme.volume.update()
 
 -- Net
 local neticon = wibox.widget.imagebox(theme.widget_net)
@@ -272,20 +273,14 @@ function theme.at_screen_connect(s)
             wibox.widget.systray(),
             spr,
             arrl_ld,
-            wibox.container.background(mpdicon, theme.bg_focus),
-            arrl_dl,
-            volicon,
-            theme.volume.widget,
-            arrl_ld,
---            wibox.container.background(mailicon, theme.bg_focus),
-            --wibox.container.background(mail.widget, theme.bg_focus),
+            wibox.container.background(volicon, theme.bg_focus),
             arrl_dl,
             memicon,
             mem.widget,
             arrl_ld,
             wibox.container.background(cpuicon, theme.bg_focus),
             wibox.container.background(cpu.widget, theme.bg_focus),
---            arrl_dl,
+            arrl_dl,
 --            tempicon,
 --            temp.widget,
             arrl_ld,

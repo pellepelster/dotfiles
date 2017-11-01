@@ -1,19 +1,19 @@
 [user]
-	signingkey = 60665D73
-	name = Christian Pelster
-	email = cpelster@thoughtworks.com
+  signingkey = 0x87FA8362
+  name = Christian Pelster
+  email = pelle@pelle.io
 
 [commit]
-	gpgsign = true
+  gpgsign = true
 
 [core]
-	autocrlf = input
-	pager = less
+  autocrlf = input
+  pager = less
   excludesfile = ~/.gitexcludes
 
 [log]
   decorate = true
- 
+
 [color]
   branch = auto
   diff = auto
@@ -36,6 +36,5 @@
 [branch]
   autosetuprebase = always
 [gpg]
-  program = /usr/bin/gpg
-
+  program = gpg2
 

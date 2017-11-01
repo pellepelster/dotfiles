@@ -1,11 +1,3 @@
-
---[[
-                                       
-     Awesome WM configuration template 
-     github.com/copycat-killer         
-                                       
---]]
-
 -- {{{ Required libraries
 local awesome, client, screen, tag = awesome, client, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
@@ -216,7 +208,7 @@ globalkeys = awful.util.table.join(
     -- https://github.com/copycat-killer/dots/blob/master/bin/screenshot
     awful.key({ altkey }, "p", function() os.execute("screenshot") end),
 
-    awful.key({ modkey }, "l", function() os.execute("xlock -mode pacman") end),
+    awful.key({ modkey }, "l", function() os.execute("xscreensaver-command -lock") end),
 
     -- Hotkeys
     awful.key({ modkey,           }, "h",      hotkeys_popup.show_help,
@@ -363,66 +355,32 @@ globalkeys = awful.util.table.join(
 --    awful.key({ altkey, }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end),
 
     -- display brightness
---    awful.key({ }, "#232",
---        function ()
---            os.execute("xbacklight -5 -time 10")
---        end),
---    awful.key({ }, "#233",
---        function ()
---            os.execute("xbacklight +5 -time 10")
---        end),
+    awful.key({ }, "#232",
+        function ()
+            os.execute("xbacklight -5 -time 10")
+        end),
+    awful.key({ }, "#233",
+        function ()
+            os.execute("xbacklight +5 -time 10")
+        end),
 
 
     -- volume control
-    awful.key({ }, "#123",
+    awful.key({ }, "XF86AudioRaiseVolume",
         function ()
-            os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
+            os.execute(string.format("amixer -c PCH set %s 5%%+", beautiful.volume.channel))
             beautiful.volume.update()
         end),
-    awful.key({ }, "#122",
+    awful.key({ }, "XF86AudioLowerVolume",
         function ()
-            os.execute(string.format("amixer -q set %s 1%%-", beautiful.volume.channel))
+            os.execute(string.format("amixer -c PCH set %s 5%%-", beautiful.volume.channel))
             beautiful.volume.update()
         end),
-    awful.key({ }, "#121",
+    awful.key({ }, "XF86AudioMute",
         function ()
-            os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
+            os.execute(string.format("amixer -D pulse sset %s 1+ toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
             beautiful.volume.update()
         end),
-
-    -- MPD control
---    awful.key({ altkey, "Control" }, "Up",
---        function ()
---            awful.spawn.with_shell("mpc toggle")
---            beautiful.mpd.update()
---        end),
---    awful.key({ altkey, "Control" }, "Down",
---        function ()
---            awful.spawn.with_shell("mpc stop")
---            beautiful.mpd.update()
---        end),
---    awful.key({ altkey, "Control" }, "Left",
---        function ()
---            awful.spawn.with_shell("mpc prev")
---            beautiful.mpd.update()
---        end),
---    awful.key({ altkey, "Control" }, "Right",
---        function ()
---            awful.spawn.with_shell("mpc next")
---            beautiful.mpd.update()
---        end),
---    awful.key({ altkey }, "0",
---        function ()
---            local common = { text = "MPD widget ", position = "top_middle", timeout = 2 }
---            if beautiful.mpd.timer.started then
---                beautiful.mpd.timer:stop()
---                common.text = common.text .. lain.util.markup.bold("OFF")
---            else
---                beautiful.mpd.timer:start()
---                common.text = common.text .. lain.util.markup.bold("ON")
---            end
---            naughty.notify(common)
---        end),
 
     -- Copy primary to clipboard (terminals to gtk)
     awful.key({ modkey }, "c", function () awful.spawn("xsel | xsel -i -b") end),
@@ -431,9 +389,7 @@ globalkeys = awful.util.table.join(
 
     -- User programs
     awful.key({ modkey }, "e", function () awful.spawn(gui_editor) end),
-    awful.key({ modkey }, "q", function () awful.spawn(browser) end),
 
-    awful.key({ modkey }, "p", function() menubar.show() end),
     -- Default
     --[[ Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
@@ -445,6 +401,7 @@ globalkeys = awful.util.table.join(
         beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
 		end)
     --]]
+
     -- Prompt
     awful.key({ modkey }, "r", function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
@@ -580,11 +537,28 @@ awful.rules.rules = {
       properties = { titlebars_enabled = true } },
 
     -- Set Firefox to always map on the first tag on screen 1.
-    { rule = { class = "Firefox" },
-      properties = { screen = 1, tag = screen[1].tags[1] } },
+--    { rule = { class = "Firefox" },
+--      properties = { screen = 1, tag = screen[1].tags[1] } },
 
-    { rule = { class = "Gimp", role = "gimp-image-window" },
-          properties = { maximized = true } },
+    { rule = { instance = "gnome-calculator" },
+          properties = { floating = true },
+          callback = function (c)
+            awful.placement.centered(c,nil)
+          end
+    },
+    { rule = { name = "pinentry-gnome3" },
+        properties = { floating = true },
+        callback = function (c)
+        awful.placement.centered(c,nil)
+      end
+    },
+    { rule = { instance = "pavucontrol" },
+        properties = { floating = true },
+        callback = function (c)
+        awful.placement.centered(c,nil)
+      end
+    },
+
 }
 -- }}}
 

@@ -1,10 +1,10 @@
 
 --[[
-                                                  
-     Licensed under GNU General Public License v2 
-      * (c) 2013, Luke Bonham                     
-      * (c) 2010, Adrian C. <anrxc@sysphere.org>  
-                                                  
+
+     Licensed under GNU General Public License v2
+      * (c) 2013, Luke Bonham
+      * (c) 2010, Adrian C. <anrxc@sysphere.org>
+
 --]]
 
 local helpers = require("lain.helpers")
@@ -26,7 +26,7 @@ local function factory(args)
     alsa.channel       = args.channel or "Master"
     alsa.togglechannel = args.togglechannel
 
-    local format_cmd = string.format("%s get %s", alsa.cmd, alsa.channel)
+    local format_cmd = string.format("%s -c PCH get %s", alsa.cmd, alsa.channel)
 
     if alsa.togglechannel then
         format_cmd = { shell, "-c", string.format("%s get %s; %s get %s",
@@ -37,6 +37,7 @@ local function factory(args)
 
     function alsa.update()
         helpers.async(format_cmd, function(mixer)
+          os.execute(string.format("echo '%s' >> /tmp/t", mixer))
             local l,s = string.match(mixer, "([%d]+)%%.*%[([%l]*)")
             if alsa.last.level ~= l or alsa.last.status ~= s then
                 volume_now = { level = l, status = s }
@@ -46,6 +47,10 @@ local function factory(args)
             end
         end)
     end
+
+    function alsa.debug()
+    end
+    helpers.newtimer(string.format("xxx", alsa.cmd, alsa.channel), timeout, alsa.debug)
 
     helpers.newtimer(string.format("alsa-%s-%s", alsa.cmd, alsa.channel), timeout, alsa.update)
 

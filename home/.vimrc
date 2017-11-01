@@ -22,8 +22,8 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 1
 let g:syntastic_ruby_checkers = ['rubocop']
 " List certain whitespace characters
 set listchars=tab:>·,trail:~,extends:>,precedes:<
@@ -38,4 +38,5 @@ Plug 'scrooloose/nerdtree'
 Plug 'vim-ruby/vim-ruby'
 Plug 'vim-syntastic/syntastic'
 Plug 'qpkorr/vim-bufkill'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
