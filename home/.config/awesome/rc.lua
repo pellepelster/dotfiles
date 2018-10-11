@@ -353,15 +353,15 @@ globalkeys = awful.util.table.join(
 --    awful.key({ altkey, }, "c", function () lain.widget.calendar.show(7) end),
 --    awful.key({ altkey, }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end),
 --    awful.key({ altkey, }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end),
-
+              
     -- display brightness
     awful.key({ }, "#232",
         function ()
-            os.execute("xbacklight -5 -time 10")
+            os.execute("echo 1 >> /tmp/test.log")
         end),
     awful.key({ }, "#233",
         function ()
-            os.execute("xbacklight +5 -time 10")
+            os.execute("sudo light -A 5")
         end),
 
 

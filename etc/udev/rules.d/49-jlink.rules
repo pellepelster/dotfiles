@@ -1,5 +1,0 @@
-# SEGGER j-link base
-SUBSYSTEM=="usb", ATTRS{idVendor}=="1366", ATTRS{idProduct}=="010[1234]", \
-    OWNER:="pelle", \
-    GROUP:="pelle", \
-    SYMLINK+="jlink"
