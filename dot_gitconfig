@@ -1,0 +1,7 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = Christian 'Pelle' Pelster
+	email = pelle@pelle.io
+[http "https://gitlab.cds.testo"]
+	sslCAInfo = /home/pelle/projects/testo/.config/TestoRootCA.cer
