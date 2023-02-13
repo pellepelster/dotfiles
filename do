@@ -6,6 +6,7 @@ DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 
 function task_bootstrap {
   sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "${HOME}/bin"
+  chezmoi init git@github.com:pellepelster/dofiles.git
 }
 
 function task_usage {

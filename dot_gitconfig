@@ -2,5 +2,11 @@
 	name = Christian 'Pelle' Pelster
 	email = pelle@pelle.io
 
+[commit]
+	gpgsign = true
+
+[pull]
+	rebase = true
+
 [http "https://gitlab.cds.testo"]
 	sslCAInfo = /home/pelle/projects/testo/.config/TestoRootCA.cer
