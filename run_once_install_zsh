@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -eu -o pipefail
+
+export DEBIAN_FRONTEND=noninteractive
+
+if ! which zsh; then
+    echo "oh noes, zsh is missing, installing..."
+    sudo apt-get install -y zsh
+fi
+
+if [[ ! -d "${HOME}/.oh-my-zsh" ]]; then
+    echo "crap, oh-my-zsh is missing, installing..."
+    sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+if [[ "${SHELL}" != "/bin/zsh" ]]; then
+    echo "setting zsh as default shell"
+    chsh -s /bin/zsh
+
+    echo "please come back when zsh is your default shell"
+fi
