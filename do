@@ -9,14 +9,8 @@ function task_bootstrap {
   chezmoi init git@github.com:pellepelster/dofiles.git
 }
 
-function task_push {
-  (
-    cd "${DIR}"
-    git add -A
-    git commit -m "$(date +%Y%m%d%H%M%S)"
-    git push
-  )
-
+function task_apply {
+   chezmoi apply
 }
 
 function task_usage {
@@ -28,6 +22,6 @@ arg=${1:-}
 shift || true
 case ${arg} in
   bootstrap) task_bootstrap "$@" ;;
-  push) task_push "$@" ;;
+  apply) task_apply "$@" ;;
   *) task_usage ;;
 esac
