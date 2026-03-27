@@ -53,6 +53,15 @@ ensure_backup_env
 restic backup --verbose backup ~/projects
 """
 
+[tasks."backup:restore:projects"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_backup_env
+restic restore --path ${HOME}/projects --target / latest
+"""
+
 [tasks."backup:snapshots"]
 run="""
 #!/bin/env bash
@@ -68,6 +77,20 @@ run="""
 #!/bin/env bash
 
 source lib.sh
+sudo apt-get install restic pass gnupg
 
-ensure_dir_link ~/a ~/b
+restic restore --path ${HOME}/secrets --target / latest
+
+ensure_dir_link ~/.ssh ~/secrets/ssh
+ensure_dir_link ~/.password-store ~/secrets/pass
+ensure_dir_link ~/.gnupg ~/secrets/gnupg
+"""
+
+[tasks."setup"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+sudo apt-get install zsh
+cp files/intellij.desktop ~/.local/share/applications/intellij.desktop
 """
