@@ -43,6 +43,16 @@ ensure_backup_env
 restic backup --verbose backup ~/secrets
 """
 
+[tasks."backup:projects"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+
+ensure_backup_env
+restic backup --verbose backup ~/projects
+"""
+
 [tasks."backup:snapshots"]
 run="""
 #!/bin/env bash
@@ -51,4 +61,13 @@ source lib.sh
 
 ensure_backup_env
 restic snapshots
+"""
+
+[tasks."bootstrap"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+
+ensure_dir_link ~/a ~/b
 """

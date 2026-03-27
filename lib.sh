@@ -13,7 +13,7 @@ function ensure_dir_link() {
     fi
 
     if [[ -e "${source_dir}" || -L "${source_dir}" ]]; then
-        local backup_dir="${source_dir%/}.backup.$(date +%Y%m%d_%H%M%S)"
+        local backup_dir="${source_dir%/}.backup.$(date +%Y%m%d%H%M%S)"
         echo "backing up source dir '${source_dir}' to '${backup_dir}"
         mv "${source_dir}" "${backup_dir}" || { echo "failed to back up '${source_dir}'"; return; }
     fi
