@@ -45,13 +45,16 @@ run="""
 #!/bin/env bash
 
 source lib.sh
-sudo apt-get install restic pass gnupg
+ensure_package restic
+ensure_package pass
+ensure_package gnupg
 
 restic restore --path ${HOME}/secrets --target / latest
 
-ensure_dir_link ~/.ssh ~/secrets/ssh
-ensure_dir_link ~/.password-store ~/secrets/pass
-ensure_dir_link ~/.gnupg ~/secrets/gnupg
+ensure_link ~/.ssh ~/secrets/ssh
+ensure_link ~/.password-store ~/secrets/pass
+ensure_link ~/.gnupg ~/secrets/gnupg
+ensure_link ~/.zsh_history ~/secrets/.zsh_history
 """
 
 [tasks."backup:run:secrets"]
@@ -61,6 +64,15 @@ run="""
 source lib.sh
 ensure_backup_env
 restic backup --verbose backup ~/secrets
+"""
+
+[tasks."backup:restore:secrets"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_backup_env
+restic restore --path ${HOME}/secrets --target / latest
 """
 
 [tasks."backup:run:bin"]
