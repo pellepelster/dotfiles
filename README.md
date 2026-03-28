@@ -16,7 +16,7 @@ git clone https://github.com/pellepelster/dotfiles.git
 cd dotfiles
 
 eval $(mise backup:bootstrap:env)
-mise bootstrap
+mise bootstrap:secrets
 ```
 
 git remote remove origin

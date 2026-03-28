@@ -14,11 +14,11 @@ echo $backup_s3_access_key
 read -p "enter secret key for backup S3 bucket: " backup_s3_secret_key
 echo $backup_s3_access_key
 
-BACKUP_s3_CREDENTIALS=$(jq --null-input \
+BACKUP_S3_CREDENTIALS=$(jq --null-input \
   --arg backup_s3_access_key "$backup_s3_access_key" \
   --arg backup_s3_secret_key "$backup_s3_secret_key" \
   '{"backup_s3_access_key": $backup_s3_access_key, "backup_s3_secret_key": $backup_s3_secret_key}')
-echo ${BACKUP_s3_CREDENTIALS} | age --encrypt --passphrase --armor --output backup_s3_credentials.age
+echo ${BACKUP_S3_CREDENTIALS} | age --encrypt --passphrase --armor --output backup_s3_credentials.age
 """
 
 [tasks."backup:bootstrap:env"]
@@ -28,51 +28,19 @@ echo "export AWS_ACCESS_KEY_ID=\"$(echo ${BACKUP_S3_CREDENTIALS} | jq -r '.backu
 echo "export AWS_SECRET_ACCESS_KEY=\"$(echo ${BACKUP_S3_CREDENTIALS} | jq -r '.backup_s3_secret_key')\""
 """
 
+[tasks."backup:bootstrap:update-pass"]
+run="""
+BACKUP_S3_CREDENTIALS=$(age --decrypt < backup_s3_credentials.age)
+echo "$(echo ${BACKUP_S3_CREDENTIALS} | jq -r '.backup_s3_access_key')" | pass insert -e backup/s3_access_key
+echo "$(echo ${BACKUP_S3_CREDENTIALS} | jq -r '.backup_s3_secret_key')" | pass insert -e backup/s3_secret_key
+"""
+
 [tasks."backup:bootstrap:init"]
 run="""
 restic init
 """
 
-[tasks."backup:secrets"]
-run="""
-#!/bin/env bash
-
-source lib.sh
-
-ensure_backup_env
-restic backup --verbose backup ~/secrets
-"""
-
-[tasks."backup:projects"]
-run="""
-#!/bin/env bash
-
-source lib.sh
-
-ensure_backup_env
-restic backup --verbose backup ~/projects
-"""
-
-[tasks."backup:restore:projects"]
-run="""
-#!/bin/env bash
-
-source lib.sh
-ensure_backup_env
-restic restore --path ${HOME}/projects --target / latest
-"""
-
-[tasks."backup:snapshots"]
-run="""
-#!/bin/env bash
-
-source lib.sh
-
-ensure_backup_env
-restic snapshots
-"""
-
-[tasks."bootstrap"]
+[tasks."bootstrap:secrets"]
 run="""
 #!/bin/env bash
 
@@ -86,11 +54,143 @@ ensure_dir_link ~/.password-store ~/secrets/pass
 ensure_dir_link ~/.gnupg ~/secrets/gnupg
 """
 
-[tasks."setup"]
+[tasks."backup:run:secrets"]
 run="""
 #!/bin/env bash
 
 source lib.sh
-sudo apt-get install zsh
-cp files/intellij.desktop ~/.local/share/applications/intellij.desktop
+ensure_backup_env
+restic backup --verbose backup ~/secrets
+"""
+
+[tasks."backup:run:bin"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_backup_env
+restic backup --verbose backup ~/bin
+"""
+
+[tasks."backup:restore:bin"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_backup_env
+restic restore --path ${HOME}/bin --target / latest
+"""
+
+[tasks."backup:run:projects"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_backup_env
+restic backup --verbose backup ~/projects
+"""
+
+[tasks."backup:restore:projects"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_backup_env
+restic restore --path ${HOME}/projects --target / latest
+"""
+
+[tasks."backup:run:documents"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_backup_env
+restic backup --verbose backup ~/documents
+"""
+
+[tasks."backup:restore:documents"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_backup_env
+restic restore --path ${HOME}/documents --target / latest
+"""
+
+[tasks."backup:run:pictures"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_backup_env
+restic backup --verbose backup ~/pictures
+"""
+
+[tasks."backup:restore:pictures"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_backup_env
+restic restore --path ${HOME}/pictures --target / latest
+"""
+
+[tasks."backup:list"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+
+ensure_backup_env
+restic snapshots
+"""
+
+[tasks."setup:apps"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_package oathtool
+ensure_package zsh
+#sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+ensure_file files/intellij.desktop ~/.local/share/applications/intellij.desktop
+ensure_file files/secrets.desktop ~/.local/share/applications/secrets.desktop
+"""
+
+[tasks."setup:git"]
+run="""
+#!/bin/env bash
+git config --global user.email "pelle@pelle.io"
+git config --global user.name "Christian 'Pelle' Pelster"
+"""
+
+[tasks."setup:docker"]
+run="""
+#!/bin/env bash
+
+sudo apt update
+ensure_package ca-certificates
+ensure_package curl
+
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+ensure_package docker-ce
+ensure_package docker-ce-cli
+ensure_package containerd.io
+ensure_package docker-buildx-plugin
+ensure_package docker-compose-plugin
+sudo usermod -aG docker $USER
 """
