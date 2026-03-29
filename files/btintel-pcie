@@ -1,0 +1,10 @@
+#!/bin/bash
+
+case "$1" in
+    pre)
+        modprobe -r btintel_pcie
+        ;;
+    post)
+        modprobe btintel_pcie
+        ;;
+esac

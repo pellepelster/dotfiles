@@ -57,6 +57,16 @@ ensure_link ~/.gnupg ~/secrets/gnupg
 ensure_link ~/.zsh_history ~/secrets/.zsh_history
 """
 
+[tasks."bootstrap:system"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+
+sudo cp files/btintel-pcie /lib/systemd/system-sleep
+sudo chmod +x /lib/systemd/system-sleep/btintel-pcie
+"""
+
 [tasks."backup:run:secrets"]
 run="""
 #!/bin/env bash
@@ -64,6 +74,15 @@ run="""
 source lib.sh
 ensure_backup_env
 restic backup --verbose backup ~/secrets
+"""
+
+[tasks."backup:run:home"]
+run="""
+#!/bin/env bash
+
+source lib.sh
+ensure_backup_env
+restic backup --verbose backup ~/
 """
 
 [tasks."backup:restore:secrets"]
