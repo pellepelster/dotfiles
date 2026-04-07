@@ -187,6 +187,7 @@ ensure_package zsh
 
 ensure_file files/intellij.desktop ~/.local/share/applications/intellij.desktop
 ensure_file files/secrets.desktop ~/.local/share/applications/secrets.desktop
+ensure_file files/firefox-profile.desktop ~/.local/share/applications/firefox-profile.desktop
 """
 
 [tasks."setup:git"]

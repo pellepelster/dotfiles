@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Firefox Profile chooser
+Icon=firefox
+Exec=/usr/bin/firefox --ProfileManager
+Terminal=false
+StartupNotify=true
