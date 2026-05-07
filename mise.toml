@@ -183,8 +183,12 @@ run="""
 source lib.sh
 ensure_package oathtool
 ensure_package zsh
-#sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+ensure_package pass
+ensure_package keepassxc
 
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+mkdir -p ~/.local/share/applications/
 ensure_file files/intellij.desktop ~/.local/share/applications/intellij.desktop
 ensure_file files/secrets.desktop ~/.local/share/applications/secrets.desktop
 ensure_file files/firefox-profile.desktop ~/.local/share/applications/firefox-profile.desktop
@@ -200,6 +204,8 @@ git config --global user.name "Christian 'Pelle' Pelster"
 [tasks."setup:docker"]
 run="""
 #!/bin/env bash
+
+source lib.sh
 
 sudo apt update
 ensure_package ca-certificates
